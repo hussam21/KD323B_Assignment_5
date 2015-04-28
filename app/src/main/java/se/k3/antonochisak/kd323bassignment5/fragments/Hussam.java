@@ -1,10 +1,10 @@
 package se.k3.antonochisak.kd323bassignment5.fragments;
 
-import android.app.Fragment;
+
 import android.os.Bundle;
+import android.app.Fragment;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,22 +32,23 @@ import se.k3.antonochisak.kd323bassignment5.R;
 import se.k3.antonochisak.kd323bassignment5.adapters.PopularMoviesAdapter;
 import se.k3.antonochisak.kd323bassignment5.api.RestClient;
 import se.k3.antonochisak.kd323bassignment5.api.model.ApiResponse;
+import se.k3.antonochisak.kd323bassignment5.api.model.RootApiResponse;
 import se.k3.antonochisak.kd323bassignment5.models.movie.Movie;
 
 import static se.k3.antonochisak.kd323bassignment5.helpers.StaticHelpers.FIREBASE_CHILD;
 import static se.k3.antonochisak.kd323bassignment5.helpers.StaticHelpers.FIREBASE_URL;
 
 /**
- * Created by isak on 2015-04-24.
+ * A simple {@link Fragment} subclass.
  */
 
-public class PopularMoviesFragment extends Fragment
-        implements Callback<List<ApiResponse>>, GridView.OnItemClickListener {
 
-    // List of movies
+public class Hussam extends MoviesFragment
+        implements Callback<List<RootApiResponse>>, GridView.OnItemClickListener {
+
     ArrayList<Movie> mMovies;
 
-    // This is pushed to mFireBase
+
     HashMap<String, Object> mMovieMap;
 
     RestClient mRestClient;
@@ -80,14 +81,14 @@ public class PopularMoviesFragment extends Fragment
         mRef = mFireBase.child(FIREBASE_CHILD);
     }
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_movies, container, false);
-        // Inject views
+
         ButterKnife.inject(this, view);
 
-        // Create adapter
+
         mAdapter = new PopularMoviesAdapter(mMovies, getActivity().getLayoutInflater());
         mMoviesGrid.setAdapter(mAdapter);
 
@@ -103,7 +104,7 @@ public class PopularMoviesFragment extends Fragment
 
         // listener = Callback<List<ApiResponse>>
         // go to http://docs.trakt.apiary.io/#introduction/extended-info, what should you include?
-        mRestClient.getApiService().getPopular("images", this);
+        mRestClient.getApiService().getTrending("images", this);
         mProgressBar.setVisibility(View.VISIBLE);
         initVoteTimer();
     }
@@ -172,18 +173,20 @@ public class PopularMoviesFragment extends Fragment
         });
     }
 
+
+
     @Override
-    public void success(List<ApiResponse> apiResponses, Response response) {
+    public void success(List<RootApiResponse> rootApiResponses, Response response) {
         mProgressBar.setVisibility(View.GONE);
-        for (ApiResponse r : apiResponses) {
+        for (RootApiResponse r : rootApiResponses) {
 
             // Build a new movie-object for every response and add to list
             Movie movie = new Movie.Builder()
-                    .title(r.title)
-                    .slugLine(r.ids.getSlug())
-                    .poster(r.image.getPoster().getMediumPoster())
-                    .fanArt(r.image.getFanArt().getFullFanArt())
-                    .year(r.year)
+                    .title(r.apiResponse.title)
+                    .slugLine(r.apiResponse.ids.getSlug())
+                    .poster(r.apiResponse.image.getPoster().getMediumPoster())
+                    .fanArt(r.apiResponse.image.getFanArt().getFullFanArt())
+                    .year(r.apiResponse.year)
                     .build();
 
             mMovies.add(movie);

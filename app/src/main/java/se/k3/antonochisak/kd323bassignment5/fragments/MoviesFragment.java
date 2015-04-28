@@ -5,6 +5,8 @@ import android.app.Fragment;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.client.Response;
+import se.k3.antonochisak.kd323bassignment5.api.model.ApiResponse;
 import se.k3.antonochisak.kd323bassignment5.api.model.RootApiResponse;
 
 /**

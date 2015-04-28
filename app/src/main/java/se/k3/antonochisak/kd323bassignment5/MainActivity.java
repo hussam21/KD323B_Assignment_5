@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
         // Set toolbar. See activity_main.xml. To retrieve the toolbar after this
         // use getSupportActionBar which returns an ActionBar item but is in fact this toolbar
         setSupportActionBar(mToolbar);
-        mTitle = getResources().getString(R.string.popular_movies_fragment);
+        mTitle = getResources().getString(R.string.Title);
         setTitle(mTitle);
 
         // Create navigationDrawer
