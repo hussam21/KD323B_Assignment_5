@@ -29,6 +29,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import se.k3.antonochisak.kd323bassignment5.R;
+import se.k3.antonochisak.kd323bassignment5.adapters.myAdaper;
 import se.k3.antonochisak.kd323bassignment5.adapters.PopularMoviesAdapter;
 import se.k3.antonochisak.kd323bassignment5.api.RestClient;
 import se.k3.antonochisak.kd323bassignment5.api.model.ApiResponse;
@@ -61,7 +62,7 @@ public class Hussam extends MoviesFragment
     CountDownTimer mVoteTimer;
     boolean mIsVoteTimerRunning = false;
 
-    PopularMoviesAdapter mAdapter;
+    myAdaper mAdapter;
 
     @InjectView(R.id.gridView)
     GridView mMoviesGrid;
@@ -81,7 +82,7 @@ public class Hussam extends MoviesFragment
         mRef = mFireBase.child(FIREBASE_CHILD);
     }
 
-
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_movies, container, false);
@@ -89,7 +90,7 @@ public class Hussam extends MoviesFragment
         ButterKnife.inject(this, view);
 
 
-        mAdapter = new PopularMoviesAdapter(mMovies, getActivity().getLayoutInflater());
+        mAdapter = new myAdaper(mMovies, getActivity().getLayoutInflater());
         mMoviesGrid.setAdapter(mAdapter);
 
         // listener= GridView.OnItemClickListener
